@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jang.biz.mapper.BoardMapper">
+
+	<select id="getBoardList" resultType="Board">
+		SELECT bno
+		, title
+		, content		
+		, reg_Date		
+		, writerId
+		FROM BBS
+		order by bno asc
+	</select>
+
+
+	<insert id="addBoard" keyProperty="bno">
+		<selectKey keyProperty="bno" resultType="int" order="BEFORE">
+			SELECT COALESCE(MAX(bno), 0) + 1 AS bno
+			FROM BBS
+		</selectKey>
+		INSERT INTO BBS (
+		bno
+		, title
+		, content
+		, reg_Date
+		, writerId
+		) VALUES (
+		#{bno},
+		#{title},
+		#{content},
+		sysdate,
+		#{writerId}
+		)
+	</insert>
+
+	<select id="getBoard" parameterType="int" resultType="Board">
+		SELECT bno
+		, title
+		, writerId
+		, content
+		FROM BBS
+		WHERE bno = #{bno}
+	</select>
+
+
+	<!-- 게시물 삭제 -->
+	<delete id="deleteBoard">
+		DELETE
+		FROM BBS
+		WHERE bno = #{bno}
+	</delete>
+
+
+	<!-- 게시물 글 수정 -->
+	<update id="updateBoard" parameterType="Board">
+		UPDATE BBS
+		SET title = #{title},
+		content = #{content},
+		writerId = #{writerId}
+		WHERE bno = #{bno}
+	</update>
+
+
+
+
+	<select id="getListPaging" resultType="Board"
+		parameterType="com.jang.biz.model.Criteria">
+    
+    <![CDATA[
+        
+        select bno, title, content, reg_date, writerid from(
+        
+                select  rownum  as bno, title, content,  reg_date, writerid
+                  
+                from BBS where rownum <= #{pageNum} * #{amount}
+                
+                
+      ]]>
+
+		<if test="keyword != null">
+			and title like '%'||#{keyword}||'%'
+		</if>
+                
+       <![CDATA[
+                    
+                )         
+                
+        where bno > (#{pageNum} -1) * #{amount}
+    
+    ]]>
+
+
+	</select>
+
+
+
+	<!-- 게시물 총 개숫 -->
+	<select id="getTotal" resultType="int">
+
+		select count(*) from BBS
+
+		<if test="keyword != null">
+
+			where title like '%'||#{keyword}||'%'
+
+		</if>
+
+	</select>
+
+	<!-- 댓글 추가 -->
+	<insert id="addComment" parameterType="Comment">
+		<selectKey keyProperty="cno" resultType="long"
+			order="BEFORE">
+			SELECT COALESCE(MAX(cno), 0) + 1 AS cno
+			FROM Comments
+		</selectKey>
+		INSERT INTO Comments (
+		cno
+		, content
+		, reg_date
+		, writerId
+		, bno
+		) VALUES (
+		#{cno},
+		#{content},
+		sysdate,
+		#{writerId},
+		#{bno}
+		)
+	</insert>
+
+
+	<!-- 댓글 가져오기 -->
+	<select id="getCommentList" resultType="Comment">
+		SELECT cno
+		, writerId
+		, content
+		, reg_Date
+		, bno
+		FROM Comments
+		WHERE bno = #{bno}
+	</select>
+
+
+
+
+</mapper>

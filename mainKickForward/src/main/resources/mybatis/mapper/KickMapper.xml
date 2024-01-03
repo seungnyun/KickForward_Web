@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jang.biz.mapper.KickMapper">	
+
+	<select id="getKickList" resultType="Kick">
+		SELECT *		
+		FROM kick_tbl
+	</select>
+
+	<select id="getKick" parameterType="int" resultType="Kick">
+		SELECT *
+		FROM kick_tbl
+		WHERE no = #{no}
+	</select>	
+
+	<insert id="addKick" keyProperty="no">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			SELECT
+			COALESCE(MAX(no), 0) + 1 AS no
+			FROM kick_tbl
+		</selectKey>
+		INSERT INTO kick_tbl (
+		no
+		,serialnumber
+		,latitude
+		,longitude
+		,in_use		
+		) VALUES (
+		#{no}
+		,#{serialnumber}
+		,#{latitude}
+		,#{longitude}
+		,#{in_use}		
+		)
+	</insert>
+
+	<update id="updateKick" parameterType="Kick">
+		UPDATE kick_tbl
+		SET		
+		serialnumber = #{serialnumber},
+		latitude = #{latitude},
+		longitude = #{longitude},
+		in_use = #{in_use}		
+		WHERE no =	#{no}		
+	</update>
+	
+	<delete id="deleteKick">
+		DELETE
+		FROM kick_tbl
+		WHERE no = #{no}
+	</delete>
+	
+	<select id="getGps" resultType="Kick">
+		SELECT latitude,
+		longitude		
+		FROM kick_tbl
+	</select>
+	
+	<select id="getListPaging" resultType="Kick">
+    
+    <![CDATA[
+        
+        select a.no, a.serialnumber, a.latitude, a.longitude, a.in_use from(        
+                select  rownum  as no, serialnumber, latitude, longitude, in_use                  
+                from kick_tbl where rownum <= #{pageNum} * #{amount}) a                
+        where a.no > (#{pageNum} -1) * #{amount}    
+    ]]>
+
+	</select>
+
+	<!-- 게시물 총 개숫 -->
+	<select id="getTotal" resultType="int">
+
+		select count(*) from kick_tbl
+
+	</select>
+	
+</mapper>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jang.biz.mapper.BreakdownBoardMapper">
+
+	<!-- 고객문의 게시판 페이지 불러오기 -->
+	<select id="getBoardList" resultType="Board">
+		SELECT bno
+		, title
+		, content
+		, writerId
+		, reg_Date
+		, repair
+
+		FROM BBS2
+		order by bno asc
+	</select>
+
+	<insert id="addBoard" keyProperty="bno">
+		<selectKey keyProperty="bno" resultType="int" order="BEFORE">
+			SELECT COALESCE(MAX(bno), 0) + 1 AS bno
+			FROM BBS2
+		</selectKey>
+		INSERT INTO BBS2 (
+		bno,
+		title,
+		content,
+		writerId,
+		location,
+		kbnumber,
+		reg_Date,
+		file_name,
+		repair
+		) VALUES (
+		#{bno},
+		#{title},
+		#{content},
+		#{writerId},
+		#{location},
+		#{kbnumber},
+		sysdate,
+		#{file_name, jdbcType=VARCHAR},
+		#{repair}
+
+		)
+	</insert>
+
+	<!-- 게시글 글쓴거 눌렀을때 불러오기 -->
+	<select id="getBoard" parameterType="int" resultType="Board">
+		SELECT bno
+		, title
+		, writerId
+		, kbnumber
+		, location
+		, content
+		, file_name
+		FROM BBS2
+		WHERE bno = #{bno}
+	</select>
+
+
+	<!-- 게시물 삭제 -->
+	<delete id="deleteBoard">
+		DELETE
+		FROM BBS2
+		WHERE bno = #{bno}
+	</delete>
+
+
+	<!-- 게시물 글 수정 -->
+	<update id="updateBoard" parameterType="Board">
+		UPDATE BBS2
+		SET title = #{title},
+		content = #{content},
+		writerId = #{writerId}
+		WHERE bno = #{bno}
+	</update>
+
+	<select id="getListPaging" resultType="Board">
+    
+    <![CDATA[
+        
+        select a.bno, a.title, a.content, a.reg_date, a.writerid, a.repair  from(        
+                select  rownum  as bno, title, content,  reg_date, writerid, repair                  
+                from BBS2 where rownum <= #{pageNum} * #{amount}) a                
+        where a.bno > (#{pageNum} -1) * #{amount}    
+    ]]>
+
+	</select>
+
+	<!-- 게시물 총 개숫 -->
+	<select id="getTotal" resultType="int">
+
+		select count(*) from BBS2
+
+	</select>
+
+	<!-- 수리현황 업뎃 -->
+	<update id="updateRepairStatus">
+		UPDATE BBS2
+		SET repair = #{status}
+		WHERE bno = #{bno}
+	</update>
+
+
+</mapper>

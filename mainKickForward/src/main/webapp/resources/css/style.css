@@ -1,0 +1,131 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+.login-page {
+  width: 360px;
+  padding: 8% 0 0;
+  margin: auto;
+}
+.form {
+  position: relative;
+  z-index: 1;
+  background: #FFFFFF;
+  max-width: 360px;
+  margin: 0 auto 100px;
+  padding: 45px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+.form p {
+  margin: 0 0 0px;
+}
+.form input {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  margin: 0 0 10px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+.form button {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #000000;
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+.form button:hover,.form button:active,.form button:focus {
+  background: #000000;
+}
+.form .message {
+  margin: 15px 0 0;
+  color: #b3b3b3;
+  font-size: 12px;
+}
+.form .message a {
+  color: #000000;
+  text-decoration: none;
+}
+#ullog { 
+list-style-type:none; margin-left:5px; 
+padding:0;font-family:굴림;font-size:12px;
+}
+#lilog { 
+ display:inline; margin: 0px 0px 0px 0px;
+ padding:0 0 0 0;
+ border:1;
+ font-family:굴림; font-size:12px;
+}
+#lilogb {
+ display:inline; margin: 0px 0px 0px 0px;
+ padding:0 0 0 0;
+ border:1;
+ font-family:굴림; font-size:12px;
+}
+span.fieldError { 
+	color: red;
+	font-size: 10px;
+	font-family:arial,sans-serif;
+	align:"left";
+}
+#image {
+    width: 200px;
+    height: 200px;
+    cursor: pointer; /* 마우스 커서 모양을 클릭(pointer) 모양으로 설정 */
+}
+.image-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 0px 0; /* 이미지 위아래로 여백 추가 */
+}
+
+/* 이미지 간격 조절 */
+.image-container img {
+    margin: 0 100px; /* 좌우로 10px 간격 추가 */
+}
+/* style.css */
+th {
+    padding-right: 20px; /* 원하는 간격으로 조정하세요. */
+}
+.button {
+    padding-right: 20px;
+    background-color: #585858;
+    color: #fff;
+    border: none;
+    width: 200px; /* 원하는 너비로 조정하세요. */
+    height: 50px; /* 원하는 높이로 조정하세요. */
+    font-size: 16px; /* 텍스트 크기를 원하는 크기로 설정하세요. */
+    text-align: center;    
+}
+p {
+    display: flex; /* 유연한 박스 레이아웃 사용 */
+    align-items: center; /* 수직 가운데 정렬 */
+}
+
+label {
+    min-width: 100px; /* 레이블의 최소 너비 설정 */
+    padding-right: 10px; /* 레이블과 입력 필드 사이 간격 설정 */
+}
+a {
+  text-decoration-line: none;
+}
+
+  #deleteForm {
+        display: inline;
+        margin: 0;
+        padding: 0;
+        border: none;
+        background: none;
+        text-align: left;
+        text-decoration: underline; /* 텍스트에 밑줄 추가 */
+        cursor: pointer;
+    }
