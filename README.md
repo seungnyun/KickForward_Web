@@ -22,5 +22,5 @@
 * **Database** : Oracle DB(19c)
 * **ORM** : Mybatis
 
-### 📌 주요 기능
+## 🎬 주요 기능 (Youtube)
 [![Video Label](http://img.youtube.com/vi/qcEq8IZprPk/0.jpg)](https://youtu.be/qcEq8IZprPk)
